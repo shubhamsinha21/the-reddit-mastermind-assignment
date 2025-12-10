@@ -13,6 +13,10 @@ Instead of manually planning and posting content, this tool allows companies to 
 
 ---
 
+## 📸 Project Preview
+
+![Reddit Mastermind UI](assets/web-ui.png)
+
 ## 📌 Who This Is For
 
 - Marketing teams managing multiple Reddit accounts  
