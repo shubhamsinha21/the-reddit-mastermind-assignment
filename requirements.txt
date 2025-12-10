@@ -1,12 +1,15 @@
-# keep tooling early so build env is healthy
+# build tooling first (helps packages that need to build wheels)
 pip>=23.0
-setuptools>=67.0
+setuptools>=68.0.0
 wheel
+setuptools_scm>=7.0.0
 
 
-# app deps
+
+# app deps (do not pin pillow)
 streamlit==1.25.0
-pandas
-openpyxl
-python-dotenv
-xlrd
+pandas==2.3.3
+openpyxl==3.1.5
+python-dotenv==1.2.1
+xlrd==2.0.2
+
