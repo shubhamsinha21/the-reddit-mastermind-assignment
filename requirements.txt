@@ -1,4 +1,11 @@
+# core
 streamlit==1.25.0
+
+# ensure pillow uses a prebuilt wheel & setup metadata helpers
+pillow==11.5.0
+setuptools_scm>=6.0
+wheel
+
 pandas
 python-dotenv
 openpyxl 
