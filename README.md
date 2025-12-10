@@ -119,7 +119,7 @@ Output quality evaluated on a 3–10 scale
 
 **Prerequisites**
 
-- Python 3.11+
+- Python 3.9.6
 - Streamlit
 - Check requirements.txt file
 
