@@ -1,3 +1,4 @@
+# app.py (updated)
 import streamlit as st
 from reddit_algorithm import generate_posts, generate_comments, score_calendar, export_csv
 from datetime import datetime, timedelta
@@ -38,7 +39,7 @@ keywords_path = DATA_DIR / "keywords.json"
 # ------------------------------
 def save_json_file(path: Path, data):
     try:
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding='utf-8')
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
         return True
     except Exception as e:
         st.error(f"Error saving {path.name}: {e}")
@@ -140,38 +141,66 @@ if uploaded_keywords:
 # ------------------------------
 def show_calendar_and_downloads(posts, comments, label_prefix=""):
     st.subheader(f"Posts ({label_prefix}weekly calendar)" if label_prefix else "Posts (weekly calendar)")
-    st.dataframe(posts)
-    st.subheader(f"Comments ({label_prefix}weekly)" if label_prefix else "Comments")
-    st.dataframe(comments)
+    if posts:
+        st.dataframe(posts)
+    else:
+        st.info("No posts generated.")
 
-    # Quality Preview Table
-    score, details = score_calendar(posts, comments)
+    st.subheader(f"Comments ({label_prefix}weekly)" if label_prefix else "Comments")
+    if comments:
+        st.dataframe(comments)
+    else:
+        st.info("No comments generated.")
+
+    # Quality Preview Table (safe access)
+    try:
+        score, details = score_calendar(posts or [], comments or [])
+    except Exception as e:
+        st.error(f"Error scoring calendar: {e}")
+        st.error(traceback.format_exc())
+        score, details = 0, {}
+
     st.subheader("Quality Preview")
     st.markdown(f"**Overall quality score:** {score}/10")
-    st.markdown(f"- Duplicate posts (same subreddit + keyword combo): {details['duplicate_pairs']}")
-    st.markdown(f"- Orphan comments (parent missing): {details['orphan_comments']}")
-    st.markdown(f"- Persona mismatches (comment author not in personas): {details['persona_mismatch']}")
+    st.markdown(f"- Duplicate posts (same subreddit + keyword combo): {details.get('duplicate_pairs', 0)}")
+    st.markdown(f"- Orphan comments (parent missing): {details.get('orphan_comments', 0)}")
+    st.markdown(f"- Persona mismatches (comment author not in personas): {details.get('persona_mismatch', 0)}")
 
-    posts_df = pd.DataFrame(posts)
-    comments_df = pd.DataFrame(comments)
-    csv_posts = posts_df.to_csv(index=False)
-    csv_comments = comments_df.to_csv(index=False)
+    # Prepare CSV downloads only if data exists
+    posts_df = pd.DataFrame(posts) if posts else pd.DataFrame()
+    comments_df = pd.DataFrame(comments) if comments else pd.DataFrame()
+
+    if not posts_df.empty:
+        csv_posts = posts_df.to_csv(index=False)
+    else:
+        csv_posts = ""
+
+    if not comments_df.empty:
+        csv_comments = comments_df.to_csv(index=False)
+    else:
+        csv_comments = ""
 
     col_a, col_b = st.columns(2)
     with col_a:
-        st.download_button(
-            label="Download posts CSV",
-            data=csv_posts,
-            file_name=f"{label_prefix}weekly_posts_{datetime.now().strftime('%Y%m%d')}.csv",
-            mime="text/csv"
-        )
+        if csv_posts:
+            st.download_button(
+                label="Download posts CSV",
+                data=csv_posts,
+                file_name=f"{label_prefix}weekly_posts_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv"
+            )
+        else:
+            st.info("No posts CSV to download.")
     with col_b:
-        st.download_button(
-            label="Download comments CSV",
-            data=csv_comments,
-            file_name=f"{label_prefix}weekly_comments_{datetime.now().strftime('%Y%m%d')}.csv",
-            mime="text/csv"
-        )
+        if csv_comments:
+            st.download_button(
+                label="Download comments CSV",
+                data=csv_comments,
+                file_name=f"{label_prefix}weekly_comments_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv"
+            )
+        else:
+            st.info("No comments CSV to download.")
 
 # ------------------------------
 # Generate actions
@@ -184,8 +213,13 @@ with col1:
             posts = generate_posts(num_posts=None, week_start=week_start)
             comments = generate_comments(posts)
             show_calendar_and_downloads(posts, comments)
-            export_csv(posts, comments, out_dir=Path('.'))
-            st.success("Generated CSVs saved to project root (./weekly_posts.csv, ./weekly_comments.csv)")
+            # Save CSVs to project root
+            try:
+                export_csv(posts, comments, out_dir=Path('.'))
+                st.success("Generated CSVs saved to project root (./weekly_posts.csv, ./weekly_comments.csv)")
+            except Exception as e:
+                st.error(f"Failed to export CSVs: {e}")
+                st.error(traceback.format_exc())
         except Exception as e:
             st.error(f"Error generating week: {e}")
             st.error(traceback.format_exc())
@@ -197,8 +231,12 @@ with col2:
             posts = generate_posts(num_posts=None, week_start=week_start)
             comments = generate_comments(posts)
             show_calendar_and_downloads(posts, comments, label_prefix="next_")
-            export_csv(posts, comments, out_dir=Path('.'))
-            st.success("Generated CSVs saved to project root (./weekly_posts.csv, ./weekly_comments.csv)")
+            try:
+                export_csv(posts, comments, out_dir=Path('.'))
+                st.success("Generated CSVs saved to project root (./weekly_posts.csv, ./weekly_comments.csv)")
+            except Exception as e:
+                st.error(f"Failed to export CSVs: {e}")
+                st.error(traceback.format_exc())
         except Exception as e:
             st.error(f"Error generating next week: {e}")
             st.error(traceback.format_exc())
