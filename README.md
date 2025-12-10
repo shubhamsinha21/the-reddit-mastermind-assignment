@@ -1,6 +1,6 @@
 # Reddit Mastermind – Automated Reddit Content Calendar Generator
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Python](https://img.shields.io/badge/Python-3.9.6-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-WebApp-orange)
 
 ---
