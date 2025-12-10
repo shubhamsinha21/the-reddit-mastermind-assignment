@@ -1,9 +1,7 @@
 # Reddit Mastermind – Automated Reddit Content Calendar Generator
 
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-WebApp-orange)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT-teal)
 
 ---
 
@@ -28,7 +26,7 @@ Instead of manually planning and posting content, this tool allows companies to 
 
 **End-to-end planning algorithm for Reddit content**  
 
-- Takes **company info, personas, subreddits, ChatGPT prompts, and post frequency** as input.  
+- Takes **company info, personas, subreddits and ChatGPT prompts(keywords)** as input.  
 - Generates **weekly content calendars** and **simulates persona interactions**.  
 - Ensures **contextual relevance, natural conversations, and Reddit-specific etiquette**.  
 - Can generate subsequent weeks with a single click.  
@@ -39,8 +37,6 @@ Instead of manually planning and posting content, this tool allows companies to 
 
 - **Backend:** Python 3  
 - **Web App:** Streamlit  
-- **AI:** OpenAI GPT-3.5/GPT-4 for content generation  
-- **Data Processing:** pandas, numpy  
 
 **Features Implemented:**
 
@@ -55,19 +51,18 @@ Instead of manually planning and posting content, this tool allows companies to 
 
 ## 📁 Project Structure
 
-reddit-mastermind/
-│
-├── app.py # Streamlit main app
-├── reddit_algorithm.py # Core content planning algorithm
-├── helpers.py # Utility functions for input/output
-├── requirements.txt # Python dependencies
-├── sample_inputs/ # Sample input data
-│ └── sample_input.json
-├── sample_outputs/ # Sample generated content calendars
-│ └── sample_calendar.json
-├── README.md # Project documentation
-└── .gitignore
+- reddit-mastermind/
+  - app.py → Streamlit main app
+  - reddit_algorithm.py → Core content planning algorithm
+  - data → Contains JSON file for inputs (company.json | subreddits.json | keywords.json | personnas.json
+  - mock data → Contains sample csv & excel file of all inputs -> You can upload this files for testing else, create your own file
+  - requirements.txt → Python dependencies
+  - README.md → Project documentation
+  - .gitignore → Git ignore file
+  - weekly_comments.csv → Generates csv file for comments
+  - weekly_posts.csv → Generated csv file for posts
 
+---
 
 **Folder Purpose:**
 
@@ -97,40 +92,6 @@ reddit-mastermind/
 
 ---
 
-### User Flow
-
-```mermaid
-flowchart TD
-    A[User provides inputs] --> B[Algorithm generates post ideas]
-    B --> C[Simulate persona comments]
-    C --> D[Generate weekly content calendar]
-    D --> E[Display in Streamlit app]
-    E --> F[User can generate subsequent weeks]
-
-
-{
-  "week": 1,
-  "posts": [
-    {
-      "title": "Which AI tools help create slides faster?",
-      "subreddit": "r/AItools",
-      "persona": "Alex_Marketing",
-      "body": "Looking for AI tools that produce business-friendly slides efficiently.",
-      "comments": [
-        {
-          "persona": "Sara_Consult",
-          "comment": "I tried slidesmart.ai, and it saved me hours fixing slide layouts!"
-        },
-        {
-          "persona": "John_Designer",
-          "comment": "SlidesAI helped me structure slides faster while maintaining design quality."
-        }
-      ]
-    }
-  ]
-}
-```
-
 
 ✅ Testing & Quality Assurance
 
@@ -143,41 +104,27 @@ Output quality evaluated on a 3–10 scale
 
 ⚡ Business Impact
 
-Saves hours of manual content creation
-
-Increases visibility and inbound leads
-
-Helps businesses rank on Reddit and even Google/LLM references
-
-Fully trustable content: minimal oversight required
-Continuous testing with varying company info, subreddits, and prompts
+- Saves hours of manual content creation
+- Increases visibility and inbound leads
+- Helps businesses rank on Reddit and even Google/LLM references
+- Fully trustable content: minimal oversight required
+- Continuous testing with varying company info, subreddits, and prompts
 
 
 🛠 Getting Started
-Prerequisites
 
-Python 3.11+
+**Prerequisites**
 
-Streamlit
-
-OpenAI API Key
+- Python 3.11+
+- Streamlit
+- Check requirements.txt file
 
 
 Installation 
 
 ```
-git clone https://github.com/<your-username>/reddit-mastermind.git
+https://github.com/shubhamsinha21/the-reddit-mastermind-assignment.git
 cd reddit-mastermind
 pip install -r requirements.txt
 streamlit run app.py
 ```
-
-🙏 Acknowledgments
-
-OpenAI – GPT-powered content generation
-
-Streamlit – Web app interface
-
-Python – Core backend
-
-Reddit – Platform inspiration for content
