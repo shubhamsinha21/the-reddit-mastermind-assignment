@@ -1,7 +1,12 @@
-# core
-streamlit==1.25.0
+# keep tooling early so build env is healthy
+pip>=23.0
+setuptools>=67.0
+wheel
 
+
+# app deps
+streamlit==1.25.0
 pandas
+openpyxl
 python-dotenv
-openpyxl 
 xlrd
