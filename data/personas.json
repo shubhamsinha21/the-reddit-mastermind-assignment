@@ -1,0 +1,22 @@
+[
+  {
+    "username": "alex_marketing",
+    "background": "I am Alex, head of marketing at a SaaS startup. I juggle campaigns and pitch decks daily. I look for tools that save time while keeping brand consistency."
+  },
+  {
+    "username": "linda_product",
+    "background": "I am Linda, a product manager who coordinates design and engineering. My team relies on fast, clear slides to communicate roadmaps and metrics."
+  },
+  {
+    "username": "mike_startup",
+    "background": "I am Mike, a startup founder who wears all hats. Pitch decks, investor updates, and internal presentations must be polished but quick to produce."
+  },
+  {
+    "username": "sara_consult",
+    "background": "I am Sara, a consultant helping small businesses with presentations. I need repeatable templates that clients can understand and use immediately."
+  },
+  {
+    "username": "tom_dev",
+    "background": "I am Tom, a developer integrating AI tools into company workflows. I focus on efficiency and automating repetitive presentation tasks."
+  }
+]
