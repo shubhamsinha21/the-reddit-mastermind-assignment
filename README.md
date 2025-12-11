@@ -129,6 +129,8 @@ Installation
 ```
 https://github.com/shubhamsinha21/the-reddit-mastermind-assignment.git
 cd reddit-mastermind
+python3 -m venv my_env (Creating virtual env)
+source my_env/bin/activate (activate virtual environment)
 pip install -r requirements.txt
 streamlit run app.py
 ```
